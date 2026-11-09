@@ -6,11 +6,21 @@
 // probleme, mais une route /commentaires/quelquechose placee apres /commentaires/:id ne serait jamais atteinte.
 
 const express = require('express');
+// import route de comon js
+const verifierJeton = require('../middlewares/jeton');
+const controleur = require('../controllers/commentaires.controller');
 // const verifierJeton = require('../middlewares/jeton');
 // const controleur = require('../controllers/commentaires.controller');
 
 const router = express.Router();
 
 // les six routes ici
-
+router.get('/articles/:id/commentaires', controleur.listerParArticle);
+router.post('/articles/:id/commentaires', controleur.creerparVisiteur);
+router.get('/commentaires', controleur.parVisiteur);
+router.get('/commentaires/:id', controleur.trouver);
+router.patch('/commentaires/:id', verifierJeton, controleur.modifier);
+router.delete('/commentaires/:id', verifierJeton,controleur.supprimer);
 module.exports = router;
+
+// les fonctions sont pas encore creer penser a le faire
