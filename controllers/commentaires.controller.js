@@ -9,5 +9,54 @@
 
 // const service = require('../services/commentaires.service');
 // const ErreurHttp = require('../utils/erreur-http');
+const service = require('../services/commentaires.service');
+const ErreurHttp = require('../utils/erreur-http');
 
-module.exports = {};
+function listerParArticle(req, res, next){
+    const id = Number(req.params.id)
+    service.lister()
+        .then((commentaires) => res.json(commentaires))
+        .catch(next);
+}
+function creer(req, res, next){
+    const id = Number(req.params.id);
+    const { nom, texte } = req.body || {};
+    if (!nom || !texte) {
+        return next(new ErreurHttp(400, 'CHAMP_MANQUANT', 'Les champs nom et texte sont obligatoires.'));
+    }
+    service.creer(id, { nom, texte })
+        .then((commentaire) => res.status(201).json(commentaire))
+        .catch(next);
+}
+function parVisiteur(req, res, next){
+    const { nom } = req.query;
+    if (!nom) {
+        return next(new ErreurHttp(400, 'NOM_MANQUANT', 'Le paramètre nom est obligatoire.'));
+    }
+    service.parVisiteur(nom)
+        .then((commentaires) => res.json(commentaires))
+        .catch(next);
+}
+function trouver(req, res, next){
+    const id = Number(req.params.id); // req.params est toujours du texte
+    const champs = req.query.champs ? req.query.champs.split(',') : null;
+    service.trouver(id, champs)
+        .then((commentaires) => res.json(commentaires))
+        .catch(next);
+}
+function modifier(req, res, next){
+    const id = Number(req.params.id);
+    service.modifier(id, req.body || {})
+        .then((commentaires) => res.json(commentaires))
+        .catch(next);
+}
+function supprimer(req, res, next){
+    const id = Number(req.params.id);
+    service.supprimer(id)
+        .then(() => res.status(204).end())
+        .catch(next);
+}
+
+
+module.exports = {listerParArticle, creer, parVisiteur, trouver, modifier, supprimer};
+
