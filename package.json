@@ -4,10 +4,10 @@
   "description": "R307 seance 1 - exercice en groupe : les commentaires des Ateliers du Bois dans PostgreSQL",
   "groupe": {
     "membres": [
-      "",
-      ""
+      "Garcia Maxence",
+      "j'étais en rdv médical lors de la formation des groupes je n'ai donc pas de groupe"
     ],
-    "depot_github": ""
+    "depot_github": "https://github.com/maxencegarcia/r307-commentaires"
   },
   "private": true,
   "type": "commonjs",
